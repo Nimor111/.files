@@ -1,5 +1,5 @@
 Config { font = "Liberation Mono:pixelsize=16:antialias=true:autohint=true"
-       , bgColor = "#282A36"
+       , bgColor = "#282828"
        , fgColor = "#B45BCF"
        , position = Top
        , lowerOnStart = True
