@@ -54,7 +54,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq org-roam-directory "~/org-roam")
+(setq org-roam-directory "~/Nextcloud/org-roam")
 
 ;; set custom mappings for org-roam commands
 (after! org-roam
@@ -73,11 +73,10 @@
       :bind
       ("C-c n j" . org-journal-new-entry)
       :custom
-      (org-journal-dir "~/org-roam/")
+      (org-journal-dir "~/Nextcloud/org-roam/")
       (org-journal-date-prefix "#+title: ")
       (org-journal-file-format "%Y-%m-%d.org")
       (org-journal-date-format "%A, %d %B %Y"))
-    (setq org-journal-enable-agenda-integration t)
 
 ;; viewer for org roam files
 (use-package! deft
@@ -88,4 +87,30 @@
       (deft-recursive t)
       (deft-use-filter-string-for-filename t)
       (deft-default-extension "org")
-      (deft-directory "~/org-roam/"))
+      (deft-directory "~/Nextcloud/org-roam/"))
+
+;; set org agenda files
+(setq org-agenda-files '("~/Nextcloud/org-roam"))
+
+;; haskell-mode settings
+(use-package! haskell-mode
+      :after haskell-mode
+      :custom
+      (haskell-tags-on-save t))
+(setq haskell-interactive-popup-error nil)
+
+;; org-random note config
+(use-package! org-randomnote
+  :after org-randomnote
+  :bind ("C-c r" . org-randomnote))
+
+(load-library "find-lisp")
+(setq org-randomnote-candidates
+      (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
+
+;; haskell lsp settings
+;; (use-package! lsp-haskell
+;;   :config
+;;   (setq lsp-haskell-process-path-hie "ghcide")
+;;   (setq lsp-haskell-process-args-hie '())
+;; )

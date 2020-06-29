@@ -6,6 +6,8 @@
 ;; use 'M-x doom/reload'.
 
 
+(package! org-randomnote
+  :recipe (:host github :repo "mwfogleman/org-randomnote"))
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
