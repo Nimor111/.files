@@ -8,6 +8,11 @@
 
 (package! org-randomnote
   :recipe (:host github :repo "mwfogleman/org-randomnote"))
+
+(package! htmlize)
+
+(package! org-reveal
+  :recipe (:host github :repo "yjwen/org-reveal"))
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 

@@ -6,7 +6,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Nimor111"
+(setq user-full-name "Georgi Bojinov"
       user-mail-address "georgi.bojinov@hotmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
@@ -21,12 +21,12 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Jet Brains Mono Nerd Font" :size 16))
+(setq doom-font (font-spec :family "JetBrainsMono" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -83,14 +83,14 @@
       :after org
       :bind
       ("C-c n d" . deft)
-      :custom
-      (deft-recursive t)
-      (deft-use-filter-string-for-filename t)
-      (deft-default-extension "org")
-      (deft-directory "~/Nextcloud/org-roam/"))
+      :config
+      (setq deft-recursive t)
+      (setq deft-use-filter-string-for-filename t)
+      (setq deft-default-extension "org")
+      (setq deft-directory "~/Nextcloud/org-roam/"))
 
 ;; set org agenda files
-(setq org-agenda-files '("~/Nextcloud/org-roam"))
+(setq org-agenda-files '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly"))
 
 ;; haskell-mode settings
 (use-package! haskell-mode
@@ -104,9 +104,15 @@
   :after org-randomnote
   :bind ("C-c r" . org-randomnote))
 
+;; find a random file in the org-roam directory
 (load-library "find-lisp")
 (setq org-randomnote-candidates
       (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
+
+;; org-reveal settings
+(use-package! ox-reveal
+  :config
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
 
 ;; haskell lsp settings
 ;; (use-package! lsp-haskell
