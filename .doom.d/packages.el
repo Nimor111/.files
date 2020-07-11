@@ -6,13 +6,22 @@
 ;; use 'M-x doom/reload'.
 
 
+;; for choosing random notes to work on
 (package! org-randomnote
   :recipe (:host github :repo "mwfogleman/org-randomnote"))
 
-(package! htmlize)
-
+;; for presentations
 (package! org-reveal
   :recipe (:host github :repo "yjwen/org-reveal"))
+
+;; for spaced repetition learning
+(package! org-drill
+  :recipe (:host github :repo "hakanserce/org-drill"))
+
+;; for visualizing org roam graph
+(package! org-roam-server
+  :recipe (:host github :repo "org-roam/org-roam-server"))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
