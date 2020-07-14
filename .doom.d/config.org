@@ -1,0 +1,192 @@
+#+TITLE: Doom Emacs Literate Configuration
+#+AUTHOR: Georgi Bojinov
+
+* Configuration
+** Table of contents :TOC_3_gh:
+- [[#configuration][Configuration]]
+  - [[#literate-config-for-doom-emacs][Literate config for doom emacs]]
+  - [[#user-configuration][User configuration]]
+  - [[#set-the-font][Set the font]]
+  - [[#set-the-theme---gruvbox-forever][Set the theme - gruvbox forever]]
+  - [[#org-mode-configs][Org-mode configs]]
+    - [[#general-org-mode-configs][General org mode configs]]
+    - [[#org-agenda-files][Org agenda files]]
+    - [[#default-org-directory][Default org directory]]
+    - [[#org-roam-configs][Org roam configs]]
+    - [[#org-journal-configs][Org journal configs]]
+    - [[#org-random-note][Org random note]]
+    - [[#org-reveal-configs][Org reveal configs]]
+    - [[#org-drill][Org drill]]
+  - [[#browsing-org-roam-files-in-emacs-with-style][Browsing org roam files in emacs with style]]
+  - [[#language-configs][Language configs]]
+    - [[#rust][Rust]]
+    - [[#haskell][Haskell]]
+  - [[#doing-things-the-emacs-way][Doing Things The Emacs Way]]
+    - [[#elfeed][Elfeed]]
+    - [[#dired---file-manager][Dired - file manager]]
+  - [[#general-configs][General configs]]
+    - [[#window-management][Window management]]
+    - [[#line-numbers][Line numbers]]
+
+** Literate config for doom emacs
+This is a literate config for doom emacs, written as an org-mode file.
+This way my config can look like a blog post!
+
+** User configuration
+#+begin_src emacs-lisp :tangle yes
+(setq user-full-name "Georgi Bojinov"
+      user-mail-address "georgi.bojinov@hotmail.com")
+#+end_src
+
+** Set the font
+#+begin_src emacs-lisp :tangle yes
+(setq doom-font (font-spec :family "JetBrainsMono" :size 18))
+#+end_src
+
+** Set the theme - gruvbox forever
+#+begin_src emacs-lisp :tangle yes
+(setq doom-theme 'doom-gruvbox)
+#+end_src
+
+** Org-mode configs
+*** General org mode configs
+#+begin_src emacs-lisp :tangle yes
+(setq org-startup-indented t
+      org-indent-mode t
+      org-log-done 'note)
+#+end_src
+*** Org agenda files
+#+begin_src emacs-lisp :tangle yes
+(setq org-agenda-files '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly"))
+#+end_src
+*** Default org directory
+Syncing stuff with Nextcloud.
+#+begin_src emacs-lisp :tangle yes
+(setq org-directory "~/Nextcloud/org/")
+#+end_src
+*** Org roam configs
+**** Database directory
+#+begin_src emacs-lisp :tangle yes
+(setq org-roam-directory "~/Nextcloud/org-roam")
+#+end_src
+**** Custom mappings for org roam commands
+#+begin_src emacs-lisp :tangle yes
+(after! org-roam
+        (map! :leader
+            :prefix "n"
+            :desc "org-roam" "l" #'org-roam
+            :desc "org-roam-insert" "i" #'org-roam-insert
+            :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
+            :desc "org-roam-find-file" "f" #'org-roam-find-file
+            :desc "org-roam-show-graph" "g" #'org-roam-show-graph
+            :desc "org-roam-insert" "i" #'org-roam-insert
+            :desc "org-roam-capture" "c" #'org-roam-capture))
+#+end_src
+
+**** Org roam server
+An amazing viewer for the org roam graph
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-roam-server)
+#+end_src
+*** Org journal configs
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-journal
+      :bind
+      ("C-c n j" . org-journal-new-entry)
+      :custom
+      (org-journal-dir "~/Nextcloud/org-roam/")
+      (org-journal-date-prefix "#+title: ")
+      (org-journal-file-format "%Y-%m-%d.org")
+      (org-journal-date-format "%A, %d %B %Y"))
+#+end_src
+
+*** Org random note
+Pick a random note to review!
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-randomnote
+  :after org-randomnote
+  :bind ("C-c r" . org-randomnote))
+
+(load-library "find-lisp")
+(setq org-randomnote-candidates
+      (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
+#+end_src
+*** Org reveal configs
+Present all the things!
+#+begin_src emacs-lisp :tangle yes
+(use-package! ox-reveal
+  :config
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+#+end_src
+*** Org drill
+Anki all the things!
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-drill
+  :after org)
+#+end_src
+** Browsing org roam files in emacs with style
+#+begin_src emacs-lisp :tangle yes
+(use-package! deft
+      :after org
+      :bind
+      ("C-c n d" . deft)
+      :config
+      (setq deft-recursive t)
+      (setq deft-use-filter-string-for-filename t)
+      (setq deft-default-extension "org")
+      (setq deft-directory "~/Nextcloud/org-roam/"))
+#+end_src
+
+** Language configs
+*** Rust
+#+begin_src emacs-lisp :tangle yes
+(use-package! rustic
+  :config
+  (setq rustic-format-trigger 'on-save))
+#+end_src
+
+*** Haskell
+#+begin_src emacs-lisp :tangle yes
+(use-package! haskell-mode
+      :after haskell-mode
+      :custom
+      (haskell-tags-on-save t))
+(setq haskell-interactive-popup-error nil)
+#+end_src
+
+** Doing Things The Emacs Way
+This is the way. Programs inside emacs that I use instead of console / graphical ones.
+*** Elfeed
+Automatically update feed when opening elfeed.
+#+begin_src emacs-lisp :tangle yes
+(add-hook! 'elfeed-search-mode-hook 'elfeed-update)
+#+end_src
+
+*** Dired - file manager
+#+begin_src emacs-lisp :tangle yes
+(map!
+  (:after dired
+    (:map dired-mode-map
+     "C-x i" #'peep-dired
+     )))
+(evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file
+                                             (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+#+end_src
+
+** General configs
+*** Window management
+More sensible window navigation.
+#+begin_src emacs-lisp :tangle yes
+(map!
+ (:after evil
+   :en "C-h"   #'evil-window-left
+   :en "C-j"   #'evil-window-down
+   :en "C-k"   #'evil-window-up
+   :en "C-l"   #'evil-window-right))
+#+end_src
+
+*** Line numbers
+#+begin_src emacs-lisp :tangle yes
+(setq display-line-numbers-type t)
+#+end_src
