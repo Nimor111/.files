@@ -1,9 +1,9 @@
 #+TITLE: Doom Emacs Literate Configuration
 #+AUTHOR: Georgi Bojinov
 
-* Configuration
+* Configure all the Emacs!
 ** Table of contents :TOC_3_gh:
-- [[#configuration][Configuration]]
+- [[#configure-all-the-emacs][Configure all the Emacs!]]
   - [[#literate-config-for-doom-emacs][Literate config for doom emacs]]
   - [[#user-configuration][User configuration]]
   - [[#set-the-font][Set the font]]
@@ -11,12 +11,16 @@
   - [[#org-mode-configs][Org-mode configs]]
     - [[#general-org-mode-configs][General org mode configs]]
     - [[#org-agenda-files][Org agenda files]]
+    - [[#org-agenda-custom-commands][Org agenda custom commands]]
     - [[#default-org-directory][Default org directory]]
     - [[#org-roam-configs][Org roam configs]]
     - [[#org-journal-configs][Org journal configs]]
     - [[#org-random-note][Org random note]]
     - [[#org-reveal-configs][Org reveal configs]]
     - [[#org-drill][Org drill]]
+    - [[#org-capture-templates][Org capture templates]]
+    - [[#org-refile-targets][Org refile targets]]
+    - [[#org-todo-keywords][Org todo keywords]]
   - [[#browsing-org-roam-files-in-emacs-with-style][Browsing org roam files in emacs with style]]
   - [[#language-configs][Language configs]]
     - [[#rust][Rust]]
@@ -24,6 +28,7 @@
   - [[#doing-things-the-emacs-way][Doing Things The Emacs Way]]
     - [[#elfeed][Elfeed]]
     - [[#dired---file-manager][Dired - file manager]]
+    - [[#eshell][Eshell]]
   - [[#general-configs][General configs]]
     - [[#window-management][Window management]]
     - [[#line-numbers][Line numbers]]
@@ -57,8 +62,11 @@ This way my config can look like a blog post!
 #+end_src
 *** Org agenda files
 #+begin_src emacs-lisp :tangle yes
-(setq org-agenda-files '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly"))
+(setq org-agenda-files
+      '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly/gtd.org" "~/Nextcloud/Orgzly/tickler.org" "~/Nextcloud/Orgzly/inbox.org"))
 #+end_src
+*** Org agenda custom commands
+TBA
 *** Default org directory
 Syncing stuff with Nextcloud.
 #+begin_src emacs-lisp :tangle yes
@@ -104,8 +112,8 @@ An amazing viewer for the org roam graph
 Pick a random note to review!
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-randomnote
-  :after org-randomnote
-  :bind ("C-c r" . org-randomnote))
+  :bind
+  ("C-c r" . org-randomnote))
 
 (load-library "find-lisp")
 (setq org-randomnote-candidates
@@ -123,6 +131,28 @@ Anki all the things!
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-drill
   :after org)
+#+end_src
+*** Org capture templates
+Capture template for todos and tickler for gtd.
+#+begin_src emacs-lisp :tangle yes
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline "~/Nextcloud/Orgzly/inbox.org" "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline "~/Nextcloud/Orgzly/tickler.org" "Tickler")
+                               "* %i%? \n %U")))
+#+end_src
+
+*** Org refile targets
+#+begin_src emacs-lisp :tangle yes
+(setq org-refile-targets '(("~/Nextcloud/Orgzly/gtd.org" :maxlevel . 3)
+                           ("~/Nextcloud/Orgzly/someday.org" :level . 1)
+                           ("~/Nextcloud/Orgzly/tickler.org" :maxlevel . 2)))
+#+end_src
+
+*** Org todo keywords
+#+begin_src emacs-lisp :tangle yes
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 #+end_src
 ** Browsing org roam files in emacs with style
 #+begin_src emacs-lisp :tangle yes
@@ -173,7 +203,14 @@ Automatically update feed when opening elfeed.
                                              (kbd "k") 'peep-dired-prev-file)
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 #+end_src
+*** Eshell
+The elisp/bash shell
 
+**** Autosuggestions (very slow atm not worth it)
+#+begin_src emacs-lisp :tangle yes
+;; (use-package! esh-autosuggest
+;;  :hook (eshell-mode . esh-autosuggest-mode))
+#+end_src
 ** General configs
 *** Window management
 More sensible window navigation.

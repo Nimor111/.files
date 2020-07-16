@@ -9,7 +9,8 @@
       org-indent-mode t
       org-log-done 'note)
 
-(setq org-agenda-files '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly"))
+(setq org-agenda-files
+      '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly/gtd.org" "~/Nextcloud/Orgzly/tickler.org" "~/Nextcloud/Orgzly/inbox.org"))
 
 (setq org-directory "~/Nextcloud/org/")
 
@@ -38,8 +39,8 @@
       (org-journal-date-format "%A, %d %B %Y"))
 
 (use-package! org-randomnote
-  :after org-randomnote
-  :bind ("C-c r" . org-randomnote))
+  :bind
+  ("C-c r" . org-randomnote))
 
 (load-library "find-lisp")
 (setq org-randomnote-candidates
@@ -51,6 +52,19 @@
 
 (use-package! org-drill
   :after org)
+
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline "~/Nextcloud/Orgzly/inbox.org" "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline "~/Nextcloud/Orgzly/tickler.org" "Tickler")
+                               "* %i%? \n %U")))
+
+(setq org-refile-targets '(("~/Nextcloud/Orgzly/gtd.org" :maxlevel . 3)
+                           ("~/Nextcloud/Orgzly/someday.org" :level . 1)
+                           ("~/Nextcloud/Orgzly/tickler.org" :maxlevel . 2)))
+
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (use-package! deft
       :after org
@@ -82,6 +96,9 @@
 (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file
                                              (kbd "k") 'peep-dired-prev-file)
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+
+;; (use-package! esh-autosuggest
+;;  :hook (eshell-mode . esh-autosuggest-mode))
 
 (map!
  (:after evil
