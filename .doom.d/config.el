@@ -9,8 +9,7 @@
       org-indent-mode t
       org-log-done 'note)
 
-(setq org-agenda-files
-      '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly/gtd.org" "~/Nextcloud/Orgzly/tickler.org" "~/Nextcloud/Orgzly/inbox.org"))
+(setq org-agenda-files '("~/Nextcloud/org-roam" "~/Nextcloud/Orgzly/gtd.org" "~/Nextcloud/Orgzly/tickler.org" "~/Nextcloud/Orgzly/inbox.org"))
 
 (setq org-directory "~/Nextcloud/org/")
 
@@ -65,6 +64,9 @@
                            ("~/Nextcloud/Orgzly/tickler.org" :maxlevel . 2)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
+(after! evil-org
+  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (use-package! deft
       :after org

@@ -22,6 +22,15 @@
 (package! org-roam-server
   :recipe (:host github :repo "org-roam/org-roam-server"))
 
+;; show file previews in dired to the side
+(package! peep-dired)
+
+;; esh autosuggestions like the fish ones
+;; (package! esh-autosuggest)
+
+;; restart emacs from within emacs
+(package! restart-emacs)
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
