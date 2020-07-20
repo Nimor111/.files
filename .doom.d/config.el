@@ -57,13 +57,18 @@
                                "* TODO %i%?")
                               ("T" "Tickler" entry
                                (file+headline "~/Nextcloud/Orgzly/tickler.org" "Tickler")
-                               "* %i%? \n %U")))
+                               "* TODO %i%? \n SCHEDULED: %T")))
 
 (setq org-refile-targets '(("~/Nextcloud/Orgzly/gtd.org" :maxlevel . 3)
                            ("~/Nextcloud/Orgzly/someday.org" :level . 1)
                            ("~/Nextcloud/Orgzly/tickler.org" :maxlevel . 2)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
+(use-package! org-books
+  :after org
+  :config
+  (setq org-books-file "~/Nextcloud/org/reading_list.org"))
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))

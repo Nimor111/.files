@@ -21,6 +21,7 @@
     - [[#org-capture-templates][Org capture templates]]
     - [[#org-refile-targets][Org refile targets]]
     - [[#org-todo-keywords][Org todo keywords]]
+    - [[#org-reading-list-management][Org reading list management]]
     - [[#misc][Misc]]
   - [[#browsing-org-roam-files-in-emacs-with-style][Browsing org roam files in emacs with style]]
   - [[#language-configs][Language configs]]
@@ -139,7 +140,7 @@ Capture template for todos and tickler for gtd.
                                "* TODO %i%?")
                               ("T" "Tickler" entry
                                (file+headline "~/Nextcloud/Orgzly/tickler.org" "Tickler")
-                               "* %i%? \n %U")))
+                               "* TODO %i%? \n SCHEDULED: %T")))
 #+end_src
 
 *** Org refile targets
@@ -152,6 +153,13 @@ Capture template for todos and tickler for gtd.
 *** Org todo keywords
 #+begin_src emacs-lisp :tangle yes
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+#+end_src
+*** Org reading list management
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-books
+  :after org
+  :config
+  (setq org-books-file "~/Nextcloud/org/reading_list.org"))
 #+end_src
 *** Misc
 Cycle through headings recursively with TAB
