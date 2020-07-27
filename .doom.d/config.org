@@ -2,7 +2,7 @@
 #+AUTHOR: Georgi Bojinov
 
 * Configure all the Emacs!
-** Table of contents :TOC_3_gh:
+** Table of contents :TOC_4_gh:
 - [[#configure-all-the-emacs][Configure all the Emacs!]]
   - [[#literate-config-for-doom-emacs][Literate config for doom emacs]]
   - [[#user-configuration][User configuration]]
@@ -14,6 +14,9 @@
     - [[#org-agenda-custom-commands][Org agenda custom commands]]
     - [[#default-org-directory][Default org directory]]
     - [[#org-roam-configs][Org roam configs]]
+      - [[#database-directory][Database directory]]
+      - [[#custom-mappings-for-org-roam-commands][Custom mappings for org roam commands]]
+      - [[#org-roam-server][Org roam server]]
     - [[#org-journal-configs][Org journal configs]]
     - [[#org-random-note][Org random note]]
     - [[#org-reveal-configs][Org reveal configs]]
@@ -23,6 +26,8 @@
     - [[#org-todo-keywords][Org todo keywords]]
     - [[#org-reading-list-management][Org reading list management]]
     - [[#misc][Misc]]
+      - [[#cycle-through-headings-recursively-with-tab][Cycle through headings recursively with TAB]]
+      - [[#start-org-files-folded][Start org files folded]]
   - [[#browsing-org-roam-files-in-emacs-with-style][Browsing org roam files in emacs with style]]
   - [[#language-configs][Language configs]]
     - [[#rust][Rust]]
@@ -31,6 +36,7 @@
     - [[#elfeed][Elfeed]]
     - [[#dired---file-manager][Dired - file manager]]
     - [[#eshell][Eshell]]
+      - [[#autosuggestions-very-slow-atm-not-worth-it][Autosuggestions (very slow atm not worth it)]]
   - [[#general-configs][General configs]]
     - [[#window-management][Window management]]
     - [[#line-numbers][Line numbers]]
@@ -110,14 +116,15 @@ An amazing viewer for the org roam graph
 
 *** Org random note
 Pick a random note to review!
+This has been added as a feature in org roam now (~org-roam-random-note~) but i'm keeping it here for posterity.
 #+begin_src emacs-lisp :tangle yes
-(use-package! org-randomnote
-  :bind
-  ("C-c r" . org-randomnote))
+;; (use-package! org-randomnote
+;;   :bind
+;;   ("C-c r" . org-randomnote))
 
-(load-library "find-lisp")
-(setq org-randomnote-candidates
-      (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
+;; (load-library "find-lisp")
+;; (setq org-randomnote-candidates
+;;       (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
 #+end_src
 *** Org reveal configs
 Present all the things!
@@ -162,10 +169,14 @@ Capture template for todos and tickler for gtd.
   (setq org-books-file "~/Nextcloud/org/reading_list.org"))
 #+end_src
 *** Misc
-Cycle through headings recursively with TAB
+**** Cycle through headings recursively with TAB
 #+begin_src emacs-lisp :tangle yes
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+#+end_src
+**** Start org files folded
+#+begin_src emacs-lisp :tangle yes
+(setq org-startup-folded t)
 #+end_src
 ** Browsing org roam files in emacs with style
 #+begin_src emacs-lisp :tangle yes

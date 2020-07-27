@@ -37,13 +37,13 @@
       (org-journal-file-format "%Y-%m-%d.org")
       (org-journal-date-format "%A, %d %B %Y"))
 
-(use-package! org-randomnote
-  :bind
-  ("C-c r" . org-randomnote))
+;; (use-package! org-randomnote
+;;   :bind
+;;   ("C-c r" . org-randomnote))
 
-(load-library "find-lisp")
-(setq org-randomnote-candidates
-      (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
+;; (load-library "find-lisp")
+;; (setq org-randomnote-candidates
+;;       (find-lisp-find-files "~/Nextcloud/org-roam" "\.org$"))
 
 (use-package! ox-reveal
   :config
@@ -72,6 +72,8 @@
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+
+(setq org-startup-folded t)
 
 (use-package! deft
       :after org
